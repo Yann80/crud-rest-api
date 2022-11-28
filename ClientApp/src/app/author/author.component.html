@@ -1,0 +1,72 @@
+<h2>Auteurs</h2>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="large" color="#fff" type="ball-climbing-dot" [fullScreen]="true"><p style="color: white"> Chargement... </p></ngx-spinner>
+<form [formGroup]="authorForm" (ngSubmit)="onSubmit(authorForm)">
+  <div class="form-group">
+    <label for="first-name" class="form-label">Nom: </label>
+    <input type="text" formControlName="firstName" class="form-control" required>
+    <div *ngIf="getControl.firstName.touched && getControl.firstName.invalid" class="danger">
+      <div *ngIf="getControl.firstName.errors" class="text-danger">Nom incorrect</div>
+    </div>
+  </div>
+  <div class="from-group">
+    <label for="last-name" class="form-label">Prénom: </label>
+    <input type="text" formControlName="lastName" class="form-control" required>
+    <div *ngIf="getControl.lastName.touched && getControl.lastName.invalid">
+      <div *ngIf="getControl.lastName.errors"  class="text-danger">Prénom incorrect</div>
+    </div>
+  </div>
+  <div class="from-group">
+    <label for="email" class="form-label">Email: </label>
+    <input type="text" formControlName="email" class="form-control" required>
+    <div *ngIf="getControl.email.touched && getControl.email.invalid" class="danger">
+      <div *ngIf="getControl.email.errors?.required || getControl.email.errors" class="text-danger">Saisir un email valid</div>
+    </div>
+  </div>
+  <br />
+  <div class="from-group">
+    <button type="submit" class="btn btn-primary" [disabled]="!authorForm.valid">Submit</button>
+  </div>
+</form>
+<br />
+<table class="table">
+  <thead class="thead-dark">
+    <tr class="text-center">
+      <th scope="col">#</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Email</th>
+      <th scope="col">Modifier</th>
+      <th scope="col">Supprimer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let author of authors">
+      <td class="text-center" style="width: 10%;">
+        <p>
+          {{ author.authorId }}
+        </p>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ author.firstName }}</h5>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ author.lastName }}</h5>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ author.email }}</h5>
+      </td>
+      <td class="text-center" style="width: 10%;">
+        <button (click)="listPost(author.authorId)" class="btn btn-secondary">Voir billet</button>
+      </td>
+      <td class="text-center" style="width: 5%;">
+        <button (click)="deleteAuthor(author)" class="btn btn-danger">Supprimer</button>
+      </td>
+      <td class="text-center" style="width: 5%;">
+        <button (click)="editAuthor(author)" class="btn btn-warning">Modifier</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="float:right;padding-right:10px">
+  <button (click)="previousPage()" class="btn btn-primary">Retour</button>
+</div>

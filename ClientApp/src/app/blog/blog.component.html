@@ -1,0 +1,78 @@
+<h2>Billets</h2>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="large" color="#fff" type="ball-climbing-dot" [fullScreen]="true"><p style="color: white"> Chargement... </p></ngx-spinner>
+<form [formGroup]="blogForm" (ngSubmit)="onSubmit(blogForm)">
+  <div class="form-group">
+    <label for="author" class="form-label">Auteur: </label>
+    <select class="form-select" formControlName="author">
+      <option value="">Choisir auteur</option>
+      <option *ngFor="let author of authors" value={{author.authorId}}>
+        {{author.firstName + ' ' + author.lastName}}
+      </option>
+    </select>
+    <div *ngIf="getControl.author.touched && getControl.author.invalid">
+      <div *ngIf="getControl.author.errors" class="text-danger">Choisissez un auteur</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="title" class="form-label">Titre: </label>
+    <input type="text" formControlName="title" class="form-control" required>
+    <div *ngIf="getControl.title.touched && getControl.title.invalid">
+      <div *ngIf="getControl.title.errors" class="text-danger">Saisir un titre</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="body" class="form-label">Texte: </label>
+    <textarea formControlName="body" class="form-control" required></textarea>
+    <div *ngIf="getControl.body.touched && getControl.body.invalid">
+      <div *ngIf="getControl.body.errors" class="text-danger">Saisir contenu</div>
+    </div>
+  </div>
+  <br />
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" [disabled]="!blogForm.valid">Submit</button>
+  </div>
+</form>
+<br />
+<table class="table">
+  <thead class="thead-dark">
+    <tr class="text-center">
+      <th scope="col">#</th>
+      <th scope="col">Auteur</th>
+      <th scope="col">Titre</th>
+      <th scope="col">Contenu</th>
+      <th scope="col">Date publier</th>
+      <th scope="col">Modifier</th>
+      <th scope="col">Supprimer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let blog of blogs">
+      <td class="text-center" style="width: 10%;">
+        <p>
+          {{ blog.blogId }}
+        </p>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ blog.author.firstName + ' ' + blog.author.lastName }}</h5>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ blog.title }}</h5>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ blog.body }}</h5>
+      </td>
+      <td class="text-center" style="width: 20%;">
+        <h5>{{ blog.publishedDate | date:'yyyy-MM-dd' }}</h5>
+      </td>
+      <td class="text-center" style="width: 5%;">
+        <button (click)="deleteBlog(blog)" class="btn btn-danger">Supprimer</button>
+      </td>
+      <td class="text-center" style="width: 5%;">
+        <button (click)="editBlog(blog)" class="btn btn-warning">Modifier</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="float: right;padding-right:10px">
+  <button (click)="previousPage()" class="btn btn-primary">Retour</button>
+</div>
